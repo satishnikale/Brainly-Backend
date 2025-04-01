@@ -5,9 +5,11 @@ import { ContentModel, UserModel, LinkModel } from "./db";
 import { userMiddleware } from "./middleware";
 import { random } from "./utils";
 const JWT_PASSWORD = "123123";
+import cors from "cors";
 
 const app = express();  
 app.use(express.json());
+app.use(cors());
 
 app.post("/api/v1/signup", async (req, res)=> {
     const username = req.body.username;
@@ -55,12 +57,13 @@ app.post("/api/v1/signin", async (req, res)=> {
 });
 
 app.post("/api/v1/content", userMiddleware, async (req, res)=> {
-    const { title, link } = req.body;
+    const { title, link, type } = req.body;
 
-    await ContentModel.create({
-        title,
+    await ContentModel.create({ 
         link,
+        title,
         tags: [],
+        type,
         // @ts-ignore 
         userId: req.userId
     });
@@ -113,7 +116,7 @@ app.post("/api/v1/brain/share", userMiddleware, async (req, res)=> {
         });
         if(existingLink){
             res.json({
-                hash : "/share/" + existingLink.hash,
+                hash : existingLink.hash,
             });
             return;
         }
