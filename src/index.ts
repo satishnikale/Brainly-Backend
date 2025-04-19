@@ -7,6 +7,9 @@ import { random } from "./utils";
 const JWT_PASSWORD = "123123";
 import cors from "cors";
 
+import 'dotenv/config'
+
+
 const app = express();  
 app.use(express.json());
 app.use(cors());
@@ -165,8 +168,11 @@ app.get("/api/v1/brain/:shareLink", async (req, res)=> {
 });
 
 async function main(){
-    await mongoose.connect("mongodb+srv://admin:Satish%402046@cluster0.ey6sn.mongodb.net/Brainly");
+    const mongodb = process.env.MONGODB_URL;
+    await mongoose.connect(mongodb as string);
     app.listen(3000);
     console.log("Listening on port number 3000");    
 }
 main();
+
+// mongodb+srv://admin:Satish%402046@cluster0.ey6sn.mongodb.net/Brainly
