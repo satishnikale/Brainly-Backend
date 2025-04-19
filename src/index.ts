@@ -174,5 +174,3 @@ async function main(){
     console.log("Listening on port number 3000");    
 }
 main();
-
-// mongodb+srv://admin:Satish%402046@cluster0.ey6sn.mongodb.net/Brainly
